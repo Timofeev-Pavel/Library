@@ -1,0 +1,183 @@
+#include <iostream>
+#include <time.h>
+#include <string.h>
+using namespace std;
+struct Book
+{
+    char Name [100];
+    char Author[150];
+    char Genre[150];
+    int Price;
+};
+void ShowBook(Book book){
+    cout<<"Book name: "<<book.Name<<endl;
+    cout<<"Book author: "<<book.Author<<endl;
+    cout<<"Book genre: "<<book.Genre<<endl;
+    cout<<"Book price: "<<book.Price<<"$"<<endl;
+    cout<<"**********************************************"<<endl;
+}
+Book NBook(){
+    Book book;
+    cin.get();
+    cout<<"Book name: ";
+    cin.getline(book.Name, 150);
+    cout<<"Book author: ";
+    cin.getline(book.Author, 100);
+    cout<<"Book genre: ";
+    cin.getline(book.Genre, 100);
+    cout<<"Book price: ";
+    cin>>book.Price;
+    return book;
+}
+void DelBook(Book lib[], int n, int index){
+    for (int i = index; i < n-1; i++)
+        {
+        lib[i] = lib[i+1];
+        }
+}
+int main() {
+    // system("chcp1251");
+    // system("cls");
+    Book hist {"Draft", "Sergey Lukyanenko", "Science fiction", 739};
+    Book hist2 {"Solaris", "Stanislav Lem", "Science fiction", 5578};
+    Book hist3 {"Wizards and how to recognize them", "Joanne Rowling", "Fantasy", 6378};
+    Book hist4 {"Third magic war", "Joanne Rowling", "Fantasy", 9000};
+    Book hist5 {"Ethics", "Foren Grinlayd", "Philosophy", 2100};
+    Book hist6 {"Cold blooded murder", "William Fridrix", "Philosophy", 2451};
+    Book library[100]={hist, hist2, hist3, hist4, hist5, hist6};
+    int count = 6;
+    int choise;
+    while(true){
+    cout<<"\nWelcome, select an action:"<<endl;
+    cout<<"1. Show all"<<endl;
+    cout<<"2. Search"<<endl;
+    cout<<"3. 15% discount. SALE!"<<endl;
+    cout<<"4. Add book to library"<<endl;
+    cout<<"5. Remove book from library"<<endl;
+    cout<<"6. Sort"<<endl;
+    cout<<"7. Exit"<<endl;
+    cin>>choise;
+        switch(choise)
+            {
+                case 1: {
+                    for (int i =0; i<count; i++) ShowBook(library[i]);break;
+                    }
+                case 2:{ 
+                    cout<<"\t1. By name"<<endl; 
+                    cout<<"\t2. By author"<<endl; 
+                    cout<<"\t3. By genre"<<endl; 
+                    int ch;
+                    cin>>ch;
+                    switch(ch)
+                        {
+                            case 1: 
+                                {
+                                    cout<<"Enter book title"<<endl;
+                                    char name[150];
+                                    cin.get();
+                                    cin.getline(name, 150);
+                                    for (int i = 0; i<count; i++)
+                                        {
+                                            if (strcmp(name, library[i].Name)==0)
+                                                ShowBook(library[i]);
+                                        }
+                                    break;
+                                }
+                            case 2:
+                            {
+                                    cout<<"Enter book author"<<endl;
+                                    char author[150];
+                                    cin.get();
+                                    cin.getline(author, 150);
+                                    for (int i = 0; i<count; i++)
+                                        {
+                                            if (strcmp(author, library[i].Author)==0)
+                                                ShowBook(library[i]);
+                                        }
+                                    break;
+                                }
+                            case 3:
+                            {
+                                    cout<<"Enter book genre"<<endl;
+                                    char genre[150];
+                                    cin.get();
+                                    cin.getline(genre, 150);
+                                    for (int i = 0; i<count; i++)
+                                        {
+                                            if (strcmp(genre, library[i].Genre)==0)
+                                                ShowBook(library[i]);
+                                        }
+                                    break;
+                                }
+                        }
+                    break;
+                    }
+                case 3:{
+                    for(int i = 0; i<count; i++)
+                        library[i].Price -= library[i].Price*0.15;
+                    break;
+                    }
+                case 4:{library[count] = NBook();
+                count+=1;
+                break;
+                    }
+                case 5: {
+                    cout<<"Enter book name"<<endl;
+                    char name[150];
+                    cin.get();
+                    cin.getline(name, 150);
+                    for (int i = 0; i < count; i++){
+                            if(strcmp(name, library[i].Name)==0)
+                            {
+                                cout<<"Do you really want to remove the book:";
+                                ShowBook(library[i]);
+                                char ans;
+                                cin>>ans;
+                                if (ans == 'Y' || ans == 'y')
+                                {
+                                    DelBook(library, count, i);
+                                    count --;
+                                }
+                            }
+                            
+                        }
+                    break;
+                }
+                case 6:{
+                    cout<<"\t1. By name"<<endl; 
+                    cout<<"\t2. By price"<<endl; 
+                    int ch;
+                    cin>>ch;
+                    switch(ch){
+                            case 1:{
+                                for (int i = 0; i < count; i++)
+                                    for(int j=0; j<count-1; j++)
+                                        if(strcmp(library[j].Name, library[j+1].Name)==1)
+                                        {
+                                            Book x =  library[j];
+                                            library[j]= library[j+1];
+                                            library[j+1]=x;
+                                            }
+                                }
+                                
+                                        break;
+                                
+                                    
+                            case 2:{
+                                for (int i = 0; i < count; i++)
+                                    for(int j=0; j<count-1; j++)
+                                        if(library[j].Price < library[j+1].Price)
+                                            swap(library[j], library[j+1]);
+                                       }
+                             break;    
+                }   
+                    
+                        }
+                break;
+                case 7: {
+                return 0;
+                }
+        
+}
+        }
+    }
